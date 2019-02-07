@@ -5,6 +5,7 @@ import history from '../../history';
 import '../../stylesheets/ListStudents.css'
 
 import {fetchStudents} from '../../actions/student';
+import Loader from '../Loader';
 
 class ListStudents extends Component {
 
@@ -15,7 +16,7 @@ class ListStudents extends Component {
 	renderStudents(){
 		if(this.props.students.length===0)
 			return (
-				<tr><td></td><td>There are no students in the database</td></tr>
+				<Loader />
 			)
 		return this.props.students.map(student => {
 			return (
