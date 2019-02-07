@@ -1,0 +1,26 @@
+.main{
+    height:100%;
+}
+
+.nav {
+    background-color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 210px;
+    padding-top: 20px;
+    z-index: 1;
+}
+
+.body {
+    position: absolute;
+    top: 0;
+    left: 210px;
+    width: 85%;
+    height: 100%;
+    padding-left: 30px;
+    padding-top: 20px;
+    padding-right: 30px;
+    background-color: #F9FAFB;
+}
