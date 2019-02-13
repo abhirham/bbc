@@ -14,10 +14,6 @@ class ListStudents extends Component {
 	}
 
 	renderStudents(){
-		if(this.props.students.length===0)
-			return (
-				<Loader />
-			)
 		return this.props.students.map(student => {
 			return (
 				<tr key={student.id} onClick={()=>history.push(`/students/${student._id}`)}>
@@ -33,6 +29,10 @@ class ListStudents extends Component {
 	}
 
 	render(){
+		if(this.props.students.length===0)
+			return (
+				<Loader />
+			)
 		return (
 			<>
 				<h1 className="ui header">List of Students</h1>

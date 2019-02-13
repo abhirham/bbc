@@ -79,7 +79,7 @@ class ViewStudent extends Component{
                     <Link className="ui right floated yellow button" to={`/students/${student._id}/edit`}>Edit</Link>
                 </h1>
                 <div className="ui equal width grid">
-                    <div class="equal width row">
+                    <div className="equal width row">
                         <div className="ui segment column">
                             <h2 className="ui header">{student.firstName} {student.lastName}</h2>
                             {this.renderStudentDetails(student)}

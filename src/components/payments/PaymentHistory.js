@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 
-import AddPayment from './AddPayment';
+import AddPayment from '../modal';
 import {addPayment} from '../../actions/payments';
 import Loader from '../Loader';
 import PayHisTable from './PayHisTable';
+import PaymentForm from './PaymentForm';
 
 class PaymentHistroy extends Component{
 
@@ -15,10 +16,22 @@ class PaymentHistroy extends Component{
 		this.setState({showModal:false});
 	}
 
+	actions = (
+		<div className="ui green button" onClick={()=>this.refs.paymentForm.submit()}>Add</div>
+	)
+
 	renderAddPayment(){
 		if(this.state.showModal)
-			return <AddPayment onDismiss={()=>{this.setState({showModal:false})}} 
-				handleSubmit={this.handleSubmit} />
+			return( 
+			<AddPayment 
+				header="Add new payment"
+				actions={this.actions}
+				onDismiss={()=>{this.setState({showModal:false})}}
+				closeBtn = "Cancel"
+			>
+				<PaymentForm initialValues={{purchases: [{}]}} ref="paymentForm" onSubmit={this.handleSubmit} />
+			</AddPayment>
+		)
 	}
     
 	render(){

@@ -5,7 +5,8 @@ import '../../stylesheets/StudentForm.css';
 
 class StudentForm extends Component{
 
-	
+	ranks = ['Black','Red','Brown','Purple','Blue','Green','Orange','Yellow','White'];
+
 
 	renderError({error,touched}){
 		if(error && touched){
@@ -41,7 +42,19 @@ class StudentForm extends Component{
 			)
 		}
 
-		
+		renderSelect = ({input, meta}) => {
+			return (
+					<div className="required field">
+							<label>Gender</label>
+							<select className="ui fluid dropdown" {...input}>
+									<option value=""></option>
+									<option value="M">Male</option>
+									<option value="F">Female</option>
+							</select>
+							{this.renderError(meta)}
+					</div>
+			)
+		}
 
 		renderStudentFields(){
 			return (
@@ -63,14 +76,11 @@ class StudentForm extends Component{
 							type="number" ph="(xxx)xxx xxxx"
 						/>
 						
-						<div className="required field">
-							<label>Gender</label>
-							<Field name="gender" component="select">
-								<option>Select</option>
-								<option value="M">Male</option>
-								<option value="F">Female</option>
-							</Field>
-						</div>
+						<Field name="gender" component={this.renderSelect} />
+						
+
+
+
 					</div>
 					<div className="fields">
 						<div className="eight wide field">
@@ -113,7 +123,20 @@ class StudentForm extends Component{
 			)
 		}
 
-		
+		renderRankOptions(){
+			let rankArr = [];
+			if(this.props.initialValues){
+				for(let [index,rank] of this.ranks.entries()){
+					if(this.props.initialValues.rank===rank.toLowerCase()){
+						rankArr.push(<option key={index} value={rank.toLowerCase()}>{rank}</option>);
+						break;
+					}
+					rankArr.push(<option key={index} value={rank.toLowerCase()}>{rank}</option>); 
+				}
+			}else
+			rankArr.push(<option key='1' value='white'>White</option>); 
+			return rankArr;
+		}
 
 		renderRankFields(){
 			return (
@@ -121,15 +144,7 @@ class StudentForm extends Component{
 					<div className="eight wide field">
 						<label>Rank {this.props.disable?"(new students get white by default)":""}</label>
 						<Field name="rank" component="select" disabled={this.props.disable}>
-							<option value="white">White</option>
-							<option value="yellow">Yellow</option>
-							<option value="orange">Orange</option>
-							<option value="green">Green</option>
-							<option value="blue">Blue</option>
-							<option value="purple">Purple</option>
-							<option value="brown">Brown</option>
-							<option value="red">Red</option>
-							<option value="black">Black</option>
+							{this.renderRankOptions()}
 						</Field>
 							
 					</div>
@@ -143,15 +158,19 @@ class StudentForm extends Component{
 					<div className="ui grid">
 						<div className="eight wide column">
 							<div className="ui green segment">
-								<h1 className="ui header">Student Details
-									<h5 className="ui header">(All fields are mandatory)</h5>
-									</h1>
+							<div className="segmentHeaders">
+									<h1 >Student Details </h1>
+									<h5>(All fields are mandatory)</h5>
+								</div>
 								{this.renderStudentFields()}
 							</div>
 						</div>
 						<div className="eight wide column">
 							<div className="ui blue segment">
-								<h1 className="ui header">Parent Details<h5 className="ui header">(Optional)</h5></h1>
+								<div className="segmentHeaders">
+									<h1>Parent Details</h1>
+									<h5>(Optional)</h5>
+								</div>
 								{this.renderParentFields()}
 							</div>
 							<div className="ui yellow segment">

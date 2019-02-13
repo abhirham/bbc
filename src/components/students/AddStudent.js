@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import api from '../../api';
+import history from '../../history';
 
 import StudentForm from './StudentForm';
 import {addStudent} from '../../actions/student';
@@ -27,7 +28,7 @@ class AddStudent extends Component {
             <>
                 <h1 className="ui header">
                     Student Registration
-                    <button className="ui right floated negative button">Cancel</button>
+                    <button className="ui right floated negative button" onClick={()=> history.push('/')}>Cancel</button>
                     <button className="ui right floated positive button" onClick={this.handleAdd}>Save</button>
                 </h1>
                 <StudentForm ref="studentform" disable={true} onSubmit={this.onStudentSubmit} />

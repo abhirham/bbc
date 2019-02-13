@@ -3,3 +3,9 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none; 
   margin: 0; 
 }
+
+.segmentHeaders {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}

@@ -6,7 +6,7 @@ class PaymentForm extends React.Component{
     renderError({error,touched}){
 		if(error && touched){
 			return (
-				<div class="ui pointing red basic label">
+				<div className="ui pointing red basic label">
 					{error}
 				</div>
 			)
@@ -41,21 +41,28 @@ class PaymentForm extends React.Component{
         )
     }
 
+    renderSelect = ({input, meta}) => {
+        return (
+            <div className="required seven wide field">
+                <label>Category</label>
+                <select className="ui fluid dropdown" {...input}>
+                    <option value=""></option>
+                    <option value="membership">Membership</option>
+                    <option value="tests">Tests</option>
+                    <option value="product">Product</option>
+                </select>
+                {this.renderError(meta)}
+            </div>
+        )
+    }
+
     renderFields = ({fields}) => {
        return (
             <>
                 {fields.map((field,index) => {
                      return (
                         <div className="fields" key={index}>
-                            <div className="required seven wide field">
-                                <label>Category</label>
-                                <Field name={`${field}.category`} placeholder="Category" component="select">
-                                    <option value=""></option>
-                                    <option value="membership">Membership</option>
-                                    <option value="tests">Tests</option>
-                                    <option value="product">Product</option>
-                                </Field>
-                            </div>
+                            <Field name={`${field}.category`} component={this.renderSelect} />
                             <Field name={`${field}.amount`} component={this.renderInput} />
                             {this.renderDeleteButton(fields,index)}
                         </div>
@@ -79,12 +86,25 @@ class PaymentForm extends React.Component{
 
 }
 
-const validate = (formValues) => {
+const validate = ({purchases}) => {
     const error = {};
-    if(!formValues.category)
-        error.category = "Select a valid option";
-    if(!formValues.amount)
-        error.amount = "Enter a valid amount";
+    if (purchases && purchases.length) {
+       const paymentsArrayErrors = []
+        purchases.forEach((purchase, index) => {
+        const purchaseErrors = {}
+        if (!purchase || !purchase.category) {
+            purchaseErrors.category = "Select a valid option";
+            paymentsArrayErrors[index] = purchaseErrors
+        }
+        if (!purchase || !purchase.amount) {
+            purchaseErrors.amount = "Enter a valid amount";
+            paymentsArrayErrors[index] = purchaseErrors
+        }
+        });
+        if (paymentsArrayErrors.length) {
+            error.purchases = paymentsArrayErrors
+        }
+    }
     return error;
 }
 

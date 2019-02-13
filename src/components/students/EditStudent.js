@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import api from '../../api';
+import history from '../../history';
 
 import StudentForm from './StudentForm';
 import {fetchStudent,editStudent} from '../../actions/student';
@@ -23,7 +24,6 @@ class EditStudent extends Component{
     }
 
 	render(){
-		console.log(this.props.student);
 		if(!this.props.student)
 			return (
 				<div >
@@ -36,7 +36,7 @@ class EditStudent extends Component{
 			<>
 				<h1 className="ui header">
 						Student Registration
-						<button className="ui right floated negative button">Cancel</button>
+						<button className="ui right floated negative button" onClick={()=>history.goBack()}>Cancel</button>
 						<button className="ui right floated positive button" onClick={this.handleUpdate}>Update</button>
 				</h1>
 				<StudentForm ref="studentform" initialValues={_.omit({...this.props.student,rank:this.props.student.rank.color},'_id')} 
