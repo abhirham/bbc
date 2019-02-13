@@ -38,7 +38,7 @@ class ListStudents extends Component {
 				<h1 className="ui header">List of Students</h1>
 				<table className="ui single line table">
 					<thead>
-						<tr>
+						<tr >
 							<th>ID</th>
 							<th>Name</th>
 							<th>Rank</th>

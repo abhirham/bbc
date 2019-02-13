@@ -1,5 +1,5 @@
 import React from 'react';
-import {reduxForm, Field} from 'redux-form';
+import {reduxForm, FieldArray, Field} from 'redux-form';
 
 class PaymentForm extends React.Component{
 
@@ -15,7 +15,7 @@ class PaymentForm extends React.Component{
 
     renderInput = ({input, meta}) => {
         return (
-            <div className="required eight wide field">
+            <div className="required seven wide field">
                 <label>Amount</label>
                 <div className="ui right labeled input">
                     <input type="text" {...input} autoComplete="off" placeholder="00.00" />
@@ -26,21 +26,53 @@ class PaymentForm extends React.Component{
         )
     }
 
+    renderDeleteButton(fields,index){
+        if(fields.length>1)
+         return (
+             <span className="ui field ">
+                <label style={{color:'white'}}>.</label>
+                <button className="ui red button " onClick={e => {
+                        e.preventDefault();
+                        fields.remove(index);
+                    }}>
+                    <i className="trash icon"></i>
+                </button>
+            </span>
+        )
+    }
+
+    renderFields = ({fields}) => {
+       return (
+            <>
+                {fields.map((field,index) => {
+                     return (
+                        <div className="fields" key={index}>
+                            <div className="required seven wide field">
+                                <label>Category</label>
+                                <Field name={`${field}.category`} placeholder="Category" component="select">
+                                    <option value=""></option>
+                                    <option value="membership">Membership</option>
+                                    <option value="tests">Tests</option>
+                                    <option value="product">Product</option>
+                                </Field>
+                            </div>
+                            <Field name={`${field}.amount`} component={this.renderInput} />
+                            {this.renderDeleteButton(fields,index)}
+                        </div>
+                    )}
+               ) }
+                <button className="ui green button" onClick={e=> {
+                        e.preventDefault();
+                        fields.push({})
+                    }}>+</button>
+            </>
+        )
+    }
+
     render(){
         return (
-            <form className="ui equal width error form">
-                <div className="fields">
-                    <div className="required eight wide field">
-                        <label>Category</label>
-                        <Field name="category" placeholder="Category" component="select">
-                            <option value=""></option>
-                            <option value="membership">Membership</option>
-                            <option value="tests">Tests</option>
-                            <option value="product">Product</option>
-                        </Field>
-                    </div>
-                    <Field name="amount" component={this.renderInput} />
-                </div>
+            <form className="ui error form">
+                <FieldArray name="purchases" component={this.renderFields} />
             </form>
         )
     }

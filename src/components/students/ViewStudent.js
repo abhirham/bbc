@@ -19,7 +19,7 @@ class ViewStudent extends Component{
         return (
             <div className="description">
                 <div className="ui small feed"><b>ID: </b>{student.id}</div>
-                <div className="ui small feed"><b>Rank: </b>{student.rank.color.toUpperCase()}</div>
+                <div className="ui small feed"><b>Rank: </b><div className={`ui ${student.rank.color} large horizontal label`}>{student.rank.color.toUpperCase()}</div></div>
                 <div className="ui small feed"><b>Date of join: </b>{student.doj}</div>
                 <div className="ui small feed"><b>Email: </b>{student.email}</div>
                 <div className="ui small feed"><b>Phone: </b>{student.phoneNumber}</div>

@@ -12,11 +12,21 @@ class PaymentHistroy extends Component{
 	
 	renderTableBody(){
 		return this.props.payments.map(payment => {
+			const purchases = payment.purchases;
+			let category = purchases[0].category;
+			let amount = 0;
+			if(purchases[1])
+				category+= `, ${purchases[1].category}`;
+				if(purchases.length>2)
+					category+=`...`;
+			purchases.forEach(purchase => {
+				amount+= purchase.amount;
+			})
 			return (
 				<tr key={payment._id}>
 					<td>{`RCPT-${payment._id.substring(15)}`}</td>
-					<td>{payment.category}</td>
-					<td>{payment.amount}</td>
+					<td>{category}</td>
+					<td>{amount}</td>
 					<td>{moment(payment.date).format('DD/MMM/YYYY')}</td>
 				</tr>
 			)
@@ -45,7 +55,7 @@ class PaymentHistroy extends Component{
 	}
 
 	handleSubmit = (formValues) => {
-		this.props.addPayment({...formValues,studentId:this.props.student._id});
+		this.props.addPayment({purchases:formValues.purchases,studentId:this.props.student._id});
 		this.setState({showModal:false});
 	}
 
