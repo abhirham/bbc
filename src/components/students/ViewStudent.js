@@ -5,7 +5,9 @@ import {Link} from 'react-router-dom';
 
 import {fetchStudent} from '../../actions/student';
 import {fetchAchievements} from '../../actions/achievement';
+import {getPayments} from '../../actions/payments';
 import Loader from '../Loader';
+import PayHisTable from '../payments/PayHisTable';
 import '../../stylesheets/ViewStudent.css'
 
 class ViewStudent extends Component{
@@ -13,6 +15,7 @@ class ViewStudent extends Component{
     componentDidMount(){
         this.props.fetchStudent(this.props.match.params.id);
         this.props.fetchAchievements(this.props.match.params.id);
+        this.props.getPayments(this.props.match.params.id);
     }
 
     renderStudentDetails(student){
@@ -88,6 +91,10 @@ class ViewStudent extends Component{
                         </div>
                     </div>
                 </div>
+                <div className="ui green segment">
+                    <h1 className="ui header">Payment History</h1>
+                    <PayHisTable payments={this.props.payments} />
+                </div>
             </>
         )
     }
@@ -96,8 +103,9 @@ class ViewStudent extends Component{
 const mapStateToProps = (state,ownProps) => {
     return {
         student: state.students[ownProps.match.params.id],
-        achievements: state.achievements
+        achievements: state.achievements,
+        payments: state.payments
     };
 }
 
-export default connect(mapStateToProps,{fetchStudent,fetchAchievements})(ViewStudent);
+export default connect(mapStateToProps,{fetchStudent,fetchAchievements,getPayments})(ViewStudent);
